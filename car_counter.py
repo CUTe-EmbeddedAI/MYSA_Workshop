@@ -46,28 +46,28 @@ while True:
             currentClass = model.names[cls]
             if currentClass == 'car' or currentClass == 'bus'\
                 or currentClass == 'truck'  or currentClass == 'motorcycle' and conf>0.1:
-                cv2.rectangle(frame,(x1,y1),(x2,y2),(255,0,255),3)
-                cv2.putText(frame,f'{currentClass} {conf}',(x1,y1-5),cv2.FONT_HERSHEY_PLAIN,1,(0,255,0),1)
+                # cv2.rectangle(frame,(x1,y1),(x2,y2),(255,0,255),3)
+                # cv2.putText(frame,f'{currentClass} {conf}',(x1,y1-5),cv2.FONT_HERSHEY_PLAIN,1,(0,255,0),1)
 
                 currentArray = np.array([x1,y1,x2,y2,conf])
                 detections = np.vstack((detections,currentArray))
 
-    # resultsTracker = tracker.update(detections)
+    resultsTracker = tracker.update(detections)
 
-    # for result in resultsTracker:
-    #     x1,y1,x2,y2,id = result
-    #     x1,y1,x2,y2 = int(x1), int(y1), int(x2), int(y2)
-    #     cv2.rectangle(frame,(x1,y1),(x2,y2),(255,0,255),3)
-    #     cv2.putText(frame,f'{int(id)}',(x1,y1-5),cv2.FONT_HERSHEY_PLAIN,1,(0,255,0),2)
+    for result in resultsTracker:
+        x1,y1,x2,y2,id = result
+        x1,y1,x2,y2 = int(x1), int(y1), int(x2), int(y2)
+        cv2.rectangle(frame,(x1,y1),(x2,y2),(255,0,255),3)
+        cv2.putText(frame,f'{int(id)}',(x1,y1-5),cv2.FONT_HERSHEY_PLAIN,1,(0,255,0),2)
 
-    #     w,h = x2-x1,y2-y1
-    #     cx = x1 + w//2
-    #     cy = y1 + h//2
-    #     cv2.circle(frame, (cx,cy), radius=5, color = (255,255,0), thickness=(cv2.FILLED))
+        w,h = x2-x1,y2-y1
+        cx = x1 + w//2
+        cy = y1 + h//2
+        cv2.circle(frame, (cx,cy), radius=5, color = (255,255,0), thickness=(cv2.FILLED))
 
-    #     if  LINE[0]<cx<LINE[2] and LINE[1]<cy<LINE[1]+20:
-    #         if totalCount.count(id)==0: 
-    #             totalCount.append(id)
+        if  LINE[0]<cx<LINE[2] and LINE[1]<cy<LINE[1]+20:
+            if totalCount.count(id)==0: 
+                totalCount.append(id)
 
     totalCars = len(totalCount)
 
